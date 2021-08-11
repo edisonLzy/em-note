@@ -1,7 +1,9 @@
-
+---
 title: Vite source
 description: 'Vite source'
-date: Wed Aug 11 2021 17:11:32 GMT+0800 (中国标准时间)
+date: Wed Aug 11 2021 17:14:56 GMT+0800 (中国标准时间)
+---
+
 
 - getCurrentInstance 获取当前的组件实例
 - vite 中的别名在 css 中的也是同样的解析规则
