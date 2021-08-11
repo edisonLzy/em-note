@@ -1,8 +1,8 @@
 ---
 
      title: 记一次jenkins使用
-     date: 2021-08-11T13:16:24.867Z
-     description: # 记一次jenki
+     date: 2021-08-11T13:19:00.851Z
+     description: 记一次jenkins使用
 
 ---
 

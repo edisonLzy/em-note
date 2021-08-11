@@ -1,8 +1,8 @@
 ---
 
      title: monorepo
-     date: 2021-08-11T13:16:24.435Z
-     description: # monorepo
+     date: 2021-08-11T13:19:00.458Z
+     description: monorepo
 
 ---
 
