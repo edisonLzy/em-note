@@ -1,25 +1,24 @@
-# vite
-
-- getCurrentInstance 获取当前的组件实例
-- vite 中的别名在 css 中的也是同样的解析规则
+- getCurrentInstance获取当前的组件实例
+- vite中的别名在 css中的也是同样的解析规则
 
 ```html
 <!-- module 开启 css module ,默认中通个 $style进行访问-->
 <style module>
-  .log {
-    background-image: url(@/assets/xx.png);
+  .log{
+    background-image:url(@/assets/xx.png)
   }
 </style>
+
 ```
 
-- css 预处理语言已默认支持
+- css预处理语言已默认支持
 - eslint 静默模式检查
 
 ```shell
 eslint --quite
 ```
 
-- 基于 husky 的配置 githook
+- 基于husky的配置 githook
 
 > https://www.npmjs.com/package/yorkie
 
@@ -46,21 +45,22 @@ load(id){
 }
 ```
 
-3. transform 将 load 加载的代码进一步处理
+3. transform 将 load加载的代码进一步处理
 
 ```js
 // code 是代码块的内容
-// id 是将来请求的url
+// id 是将来请求的url 
 transform(code,id){
     if(/vue&type=i18n/){
        return export default Comp=>{
-
+    
     }
     }
     return null
 }
 
 <style>
-
+  
  </style> 浏览器将会发出 xxxxvue&type=i18n的请求
 ```
+
