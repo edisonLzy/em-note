@@ -2215,6 +2215,19 @@ address@1.1.2, address@^1.0.1:
   resolved "https://registry.npm.taobao.org/address/download/address-1.1.2.tgz#bf1116c9c758c51b7a933d296b72c221ed9428b6"
   integrity sha1-vxEWycdYxRt6kz0pa3LCIe2UKLY=
 
+aegis-core@^1.21.8:
+  version "1.21.8"
+  resolved "https://registry.npmjs.org/aegis-core/-/aegis-core-1.21.8.tgz#7d0dd37c02acf74ccf51499f968cae9207225aa4"
+  integrity sha512-tk/jK/4buhHIhAicKEj9xCg19q4GhNrPkJChOY9H4w6zCsCWoq2aHrUgczvPKS9RF69Y3BsBlV4GDlCuoGSSAw==
+
+aegis-web-sdk@^1.24.38:
+  version "1.24.38"
+  resolved "https://registry.npmjs.org/aegis-web-sdk/-/aegis-web-sdk-1.24.38.tgz#57a46064857ff3b3080a11ea5eb8834dba43163c"
+  integrity sha512-Rzvn4KSU+7VSBhXGLCW8k7FjOAEQU2RFMs90uRIAZ+1lQwk0ppbegW5TkrZLI7hHKdM+SN4/ZdWcEbhryVHpnA==
+  dependencies:
+    aegis-core "^1.21.8"
+    web-vitals "1.1.2"
+
 aggregate-error@^3.0.0:
   version "3.1.0"
   resolved "https://registry.nlark.com/aggregate-error/download/aggregate-error-3.1.0.tgz#92670ff50f5359bdb7a3e0d40d0ec30c5737687a"
@@ -14385,6 +14398,11 @@ web-namespaces@^1.0.0, web-namespaces@^1.1.2:
   version "1.1.4"
   resolved "https://registry.nlark.com/web-namespaces/download/web-namespaces-1.1.4.tgz#bc98a3de60dadd7faefc403d1076d529f5e030ec"
   integrity sha1-vJij3mDa3X+u/EA9EHbVKfXgMOw=
+
+web-vitals@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/web-vitals/-/web-vitals-1.1.2.tgz#06535308168986096239aa84716e68b4c6ae6d1c"
+  integrity sha512-PFMKIY+bRSXlMxVAQ+m2aw9c/ioUYfDgrYot0YUa+/xa0sakubWhSDyxAKwzymvXVdF4CZI71g06W+mqhzu6ig==
 
 webpack-dev-middleware@^3.7.2:
   version "3.7.3"
