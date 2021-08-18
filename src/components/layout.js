@@ -6,19 +6,6 @@ import { scale } from '../utils/typography'
 import Footer from './footer'
 import './global.css'
 
-// 引入后进行初始化
-import Aegis from 'aegis-web-sdk'
-
-const aegis = new Aegis({
-  id: '7EY0d5B2eY2zMzkqVm', // 上报 id
-  uin: 'xxx', // 用户唯一 ID（可选）
-  reportApiSpeed: true, // 接口测速
-  reportAssetSpeed: true, // 静态资源测速
-  spa: true // spa 应用页面跳转的时候开启 pv 计算
-})
-
-console.log(aegis);
-
 const Layout = ({ location, title, children }) => {
   const toggle = (
     <ThemeToggler>
