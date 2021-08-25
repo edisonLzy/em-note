@@ -3,7 +3,7 @@
 ---
 
      title: 循环不变量
-     date: 2021-08-24T14:29:21.427Z
+     date: 2021-08-25T14:23:14.957Z
      description: 循环不变量
 
 ---
@@ -45,7 +45,7 @@ function find<T>(arr: T[], target: T) {
 
 - n: 算法作用在的数据的大小
 
-### O(n)
+### O(n): 随着数据规模 n 的增长 , 算法的复杂度成线性的关系
 
 - 常数不重要
 
@@ -74,9 +74,13 @@ T = O(n)
 
 - 明确 n 是谁
 
-### O(logn)
+### O(logn): 对数复杂度
 
-- 无论 log 的底数是多少,都是通称算法为 O(logn)级别的算法
+- 无论 log 的底数是多少,都是通称算法为 O(logn)级别的算法(^表示对数)
+
+```js
+log2n = log10 ^ (n / log10) ^ 2;
+```
 
 - 数字 n 的二进制位数
 
@@ -87,6 +91,75 @@ while (n) {
   n % 2;
   n /= 2;
 }
+```
+
+### O(根号 n)
+
+- 求数字 n 的所有约数
+
+```js
+for (let i; i * i <= n; i++) {
+  if (i % 2 === 0) {
+  }
+}
+```
+
+### O(2 的 n 次方) : 指数级别算法复杂度
+
+- 长度为 n 的二进制数字
+
+### O(n 的阶层): 阶层级别的算法复杂度
+
+- 长度为 n 的数组的所有排列
+
+### O(1): 算法的执行次数与 数据规模无关
+
+- 判断数字 是否是偶数
+
+```js
+return 2 % 2;
+```
+
+### O(nlogn)
+
+## 时间复杂度排序
+
+## 算法测试用例
+
+- 使用循环模拟测试的次数
+
+```js
+const size = [10000000, 100000000];
+function find(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    // 循环体
+    if (arr[i] === target) {
+      return i;
+    }
+    return -1;
+  }
+}
+function genArr(len) {
+  const arr = [];
+  for (let i = 0; i <= len; i++) {
+    arr.push(i);
+  }
+  return arr;
+}
+for (const iterator of size) {
+  let startTime = Date.now();
+  const arr = genArr(iterator);
+  for (let i = 0; i < 100; i++) {
+    // 测试100次 且查找最差的结果
+    find(arr, iterator);
+  }
+  const endTime = Date.now();
+  console.log((endTime - startTime) / 1000 + "s---" + iterator + "times");
+}
+
+// 0.255s---10000000times
+// 2.218s---100000000times
+// 随着数据规模的增长, 时间复杂度成线性增长
 ```
 
 ## java 中的泛型
