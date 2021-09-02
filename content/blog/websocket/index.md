@@ -1,7 +1,7 @@
 ---
 
      title: websocket
-     date: 2021-09-01T14:05:25.339Z
+     date: 2021-09-02T13:19:45.860Z
      description: websocket
 
 ---
@@ -66,6 +66,8 @@ wsServer.on("connection", (socket) => {
 
 - 客户端
 
+1. open 事件触发于 连接建立之后,即 http 升级协议成功之后
+
 ```js
 const socket = new WebSocket("ws://localhost:8888"); // 链接服务器
 // 当连接打开或者建立后出发回调
@@ -125,6 +127,8 @@ class Server extends EventEmitter {
         // socket通信协议
       }
     });
+    // 有连接接入 触发connection
+    this.emit("connection", socket);
   };
   upgradeProtocol(socket, chunk) {
     //1. 解析请求信息: 起始行 \r\n 请求头 \r\n\r\n 请求体
@@ -151,21 +155,78 @@ module.exports = {
 };
 ```
 
-- 解析数据帧
+- onmessage: 解析数据帧
 
-1. FIN
+1. FIN: 解析是否是结束帧
 
 ```js
 // chunk[0] 表示第一个字节
 const FIN = (chunk[0] & 0b10000000) === 0b10000000;
 ```
 
-2. opcode
+2. opcode: 获取接受到数据的类型
 
 ```js
 // 保留后面四个位
 const opcode = chunk[0] & 0b00001111;
 ```
+
+3. masked: 是否掩码
+
+```js
+  onmessage(socket, chunk) {
+    // true: 表示 FIN 是 1
+    const FIN = (chunk[0] & 0b10000000) === 0b10000000
+    // 获取 opcode
+    const opcode = chunk[0] & 0b00001111
+    // 是否掩码 1表示是
+    const mask = (chunk[1] & 0b10000000) === 0b10000000
+    let payloadLength = chunk[1] & 0b01111111;//取得负载数据的长度
+    let payload;
+    if (mask) {
+      let masteringKey = chunk.slice(2, 6);//掩码
+      payload = chunk.slice(6);//负载数据
+      unmask(payload, masteringKey);//对数据进行解码处理(异或)
+    }
+    if (FIN) {
+      switch (opcode) {
+        case OP_CODES.TEXT:
+          socket.emit('message', payload.toString());
+          break;
+        case OP_CODES.BINARY:
+          socket.emit('message', payload);
+          break;
+        default:
+          break;
+      }
+    }
+
+  }
+```
+
+- send: 服务器端发送给客户端不用掩码，只需要 opcode,数据长度以及传输的数据
+
+```JS
+    socket.send = function (payload) {
+      let opcode = -1;
+      if (Buffer.isBuffer(payload)) {
+        opcode = OP_CODES.BINARY;
+      } else {
+        opcode = OP_CODES.TEXT;
+        payload = Buffer.from(payload)
+      }
+      const length = payload.length;
+      const buffer = Buffer.alloc(2 + length);// 数据帧的总长度(字节)
+      buffer[0] = opcode | 0b10000000;
+      buffer[1] = length;
+      payload.copy(buffer, 2);
+      socket.write(buffer);
+    }
+```
+
+## 聊天室
+
+- 广播
 
 ## GET
 
@@ -179,6 +240,11 @@ const opcode = chunk[0] & 0b00001111;
 ```js
 const buffer = Buffer.from([0b00000001, 0b00000000]);
 ```
+
+7. Buffer.isBuffer
+8. Buffer.from: 字符串转 buffer
+9. Buffer.alloc: 分配指定长度 Buffer
+10. Buffer 中存的是字节数
 
 ## TODO
 
