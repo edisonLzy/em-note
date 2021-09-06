@@ -1,7 +1,7 @@
 ---
 
      title: lerna
-     date: 2021-08-29T12:43:54.816Z
+     date: 2021-09-06T14:20:33.667Z
      description: lerna
 
 ---
@@ -189,9 +189,37 @@ console.log(resolveCwd("./foo"));
 //=> '/Users/sindresorhus/unicorn/foo.js'
 ```
 
+- 获取全局 npm bin 目录: npm link 将会链接到这个目录
+
+```shell
+npm bin -g
+```
+
+- node --eval 'xx': 动态执行 node 脚本
+
+```shell
+node --eval 'console.log(process.argv)' -- 参数
+```
+
+- process.execNode: 获取 node 的可执行路径
+- npmlog: 打印 npm 日志
+
+```js
+log.info("vite", "%s目录已经存在", targetDir);
+```
+
+- fs.access: 文件存在则不报错(更推荐使用)
+
 ## TODO
 
 - eslint 插件
 - import-local
 
 1. https://www.npmjs.com/package/import-local
+
+- ee create : 通称配置文件存放到 userhome 目录中
+
+```js
+const userhome = require("userhome");
+userhome("config_path");
+```
