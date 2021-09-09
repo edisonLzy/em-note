@@ -1,7 +1,7 @@
 ---
 
      title: 数据结构
-     date: 2021-09-08T14:12:57.512Z
+     date: 2021-09-09T14:29:22.719Z
      description: 数据结构
 
 ---
@@ -153,6 +153,49 @@ interface Stack {
 - 括号匹配
 
 1. 栈顶元素反映了在嵌套的层次关系中，最近需要匹配的元素
+
+## 队列
+
+- FIFO: 先进先出
+- 只能操作`队首` 或者 `队尾` 的元素，队尾加入，队首取出
+
+```ts
+interface Queue{
+   enqueue: 入队 O(1)
+   dequeue: 出队 O(n)
+   getFront: 获取对头元素
+   getSize: 获取size
+   isEmpty: 是否为空
+}
+```
+
+### 循环队列
+
+- 只需要维护 `队首` 和`队尾`的指针,出队操作只需要移动 队首指针的指向
+- front === tail 队列为空
+- (tail + 1) % c === front 队列满
+
+```ts
+class LoopArray<T> {
+  private data: T[];
+  private front: null;
+  private tail: null;
+  private size;
+  constructorp(capacity: number) {
+    // capacity + 1: 循环队列会浪费一个空间
+    this.data = new Array<T>(capacity + 1);
+  }
+  getCapacity() {
+    return this.data.length - 1;
+  }
+  isEmpty() {
+    return this.tail === this.front;
+  }
+  size() {
+    return this.size;
+  }
+}
+```
 
 ## GET
 
