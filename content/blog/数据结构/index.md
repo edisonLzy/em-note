@@ -1,7 +1,7 @@
 ---
 
      title: 数据结构
-     date: 2021-09-09T14:29:22.719Z
+     date: 2021-09-13T14:40:16.479Z
      description: 数据结构
 
 ---
@@ -162,7 +162,7 @@ interface Stack {
 ```ts
 interface Queue{
    enqueue: 入队 O(1)
-   dequeue: 出队 O(n)
+   dequeue: 出队 O(n) // 使用循环队列 可以是 O(1)
    getFront: 获取对头元素
    getSize: 获取size
    isEmpty: 是否为空
@@ -184,6 +184,8 @@ class LoopArray<T> {
   constructorp(capacity: number) {
     // capacity + 1: 循环队列会浪费一个空间
     this.data = new Array<T>(capacity + 1);
+    this.front = 0;
+    this.tail = this.data.length - 1;
   }
   getCapacity() {
     return this.data.length - 1;
@@ -193,6 +195,32 @@ class LoopArray<T> {
   }
   size() {
     return this.size;
+  }
+  enqueue() {
+    if ((tail + 1) % data.length === front) {
+      resize(getCapacity() * 2);
+    }
+    data[tail] = e;
+    tail = (tail + 1) % data.length;
+  }
+  dequeue() {
+    if (isEmpty()) {
+      throw new Error("xxx");
+    }
+    const result = this.data[front];
+    data[front] = null;
+    front = (front + 1) & data.length;
+    size--;
+    return result;
+  }
+  resize(capacity) {
+    const newData = new Array(capacity + 1);
+    for (let i = 0; i < this.size; i++) {
+      newData[i] = data[(i + front) % data.length];
+    }
+    data = newData;
+    front = 0;
+    tail = size;
   }
 }
 ```
