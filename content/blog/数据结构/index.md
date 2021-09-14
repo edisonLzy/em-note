@@ -1,7 +1,7 @@
 ---
 
      title: 数据结构
-     date: 2021-09-13T14:40:16.479Z
+     date: 2021-09-14T15:20:11.009Z
      description: 数据结构
 
 ---
@@ -171,7 +171,9 @@ interface Queue{
 
 ### 循环队列
 
-- 只需要维护 `队首` 和`队尾`的指针,出队操作只需要移动 队首指针的指向
+> https://leetcode-cn.com/problems/design-circular-queue/solution/she-ji-xun-huan-dui-lie-shu-zu-shi-xian-7125y/
+
+- 只需要维护 `队首` 和`队尾`的指针, 出队操作只需要移动 队首指针的指向
 - front === tail 队列为空
 - (tail + 1) % c === front 队列满
 
@@ -224,6 +226,25 @@ class LoopArray<T> {
   }
 }
 ```
+
+## 链表
+
+- 数据存储在 `Node`中
+
+```ts
+interface Node<T> {
+  data: T;
+  next: this;
+}
+```
+
+### 优点
+
+- 真正的动态数据结构，不需要处理固定容量的问题
+
+### 缺点
+
+- 随机访问能力的缺失, 没有索引。只能通过 next 递归查找
 
 ## GET
 
