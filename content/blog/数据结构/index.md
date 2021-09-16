@@ -1,7 +1,7 @@
 ---
 
      title: 数据结构
-     date: 2021-09-14T15:20:11.009Z
+     date: 2021-09-16T14:20:39.127Z
      description: 数据结构
 
 ---
@@ -178,53 +178,84 @@ interface Queue{
 - (tail + 1) % c === front 队列满
 
 ```ts
-class LoopArray<T> {
-  private data: T[];
-  private front: null;
-  private tail: null;
-  private size;
-  constructorp(capacity: number) {
-    // capacity + 1: 循环队列会浪费一个空间
-    this.data = new Array<T>(capacity + 1);
-    this.front = 0;
-    this.tail = this.data.length - 1;
+// tailIndex = (headIndex + count) % capacity
+/**
+ * @param {number} k
+ */
+var MyCircularQueue = function (k) {
+  this.k = k;
+  this.size = 0;
+  this.data = new Array(k);
+  this.front = 0; // 头指针
+};
+
+/**
+ * @param {number} value
+ * @return {boolean}
+ */
+// k: 3  rear: 0 [1]
+// k: 3  rear: 1 [2]
+// k: 3  rear: 2 [2]
+MyCircularQueue.prototype.enQueue = function (value) {
+  if (this.isFull()) {
+    return false;
   }
-  getCapacity() {
-    return this.data.length - 1;
-  }
-  isEmpty() {
-    return this.tail === this.front;
-  }
-  size() {
-    return this.size;
-  }
-  enqueue() {
-    if ((tail + 1) % data.length === front) {
-      resize(getCapacity() * 2);
-    }
-    data[tail] = e;
-    tail = (tail + 1) % data.length;
-  }
-  dequeue() {
-    if (isEmpty()) {
-      throw new Error("xxx");
-    }
-    const result = this.data[front];
-    data[front] = null;
-    front = (front + 1) & data.length;
-    size--;
-    return result;
-  }
-  resize(capacity) {
-    const newData = new Array(capacity + 1);
-    for (let i = 0; i < this.size; i++) {
-      newData[i] = data[(i + front) % data.length];
-    }
-    data = newData;
-    front = 0;
-    tail = size;
-  }
-}
+  this.data[(this.front + this.size) % this.k] = value;
+  this.size++;
+  return true;
+};
+
+/**
+ * @return {boolean}
+ */
+MyCircularQueue.prototype.deQueue = function () {
+  if (this.isEmpty()) return false;
+  this.front = (this.front + 1) % this.k;
+  this.size--;
+  return true;
+};
+
+/**
+ * @return {number}
+ */
+MyCircularQueue.prototype.Front = function () {
+  if (this.isEmpty()) return -1;
+  return this.data[this.front];
+};
+
+/**
+ * @return {number}
+ */
+MyCircularQueue.prototype.Rear = function () {
+  if (this.isEmpty()) return -1;
+  const tailIndex = (this.front + this.size - 1) % this.k;
+  return this.data[tailIndex];
+};
+
+/**
+ * @return {boolean}
+ */
+MyCircularQueue.prototype.isEmpty = function () {
+  return this.size === 0;
+};
+
+/**
+ * @return {boolean}
+ */
+MyCircularQueue.prototype.isFull = function () {
+  return this.size === this.k;
+};
+
+var circularQueue = new MyCircularQueue(3);
+console.log(circularQueue.enQueue(1)); // 返回 true
+console.log(circularQueue.enQueue(2)); // 返回 true
+console.log(circularQueue.enQueue(3)); // 返回 true
+console.log(circularQueue.enQueue(4)); // 返回 false，队列已满
+console.log(circularQueue.Rear()); // 返回 3
+console.log(circularQueue.isFull()); // 返回 true
+console.log(circularQueue.deQueue()); // 返回 true
+console.log(circularQueue.enQueue(4)); // 返回 true
+console.log(circularQueue.Rear()); // 返回 4
 ```
 
 ## 链表
