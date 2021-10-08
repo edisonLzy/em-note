@@ -1,7 +1,7 @@
 ---
 
      title: jest
-     date: 2021-10-07T13:26:49.369Z
+     date: 2021-10-08T14:09:40.701Z
      description: jest
 
 ---
@@ -157,6 +157,44 @@ it("xx", () => {
 - 测试某个类的实例化
 
 1. 返回在 callback.mock 对象上的 `instance` 属性上
+
+## TDD
+
+- 先写测试用例,在写对应的功能实现,
+
+### enzyme
+
+> https://enzymejs.github.io/enzyme/docs/api/ReactWrapper/simulate.html
+
+```shell
+npm i enzyme @types/enzyme
+```
+
+```tsx
+it("test message-form render element", () => {
+  const wrapper = mount(<MessageForm />);
+  const form = wrapper.find(`form`);
+  const input = wrapper.find(`input`);
+  const button = wrapper.find(`button`);
+  expect(form).toHaveLength(1);
+  expect(input).toHaveLength(1);
+  expect(button).toHaveLength(1);
+});
+
+it("test message-form submit input value by button", () => {
+  const addMessage = jest.fn();
+  const wrapper = mount(<MessageForm addMessage={addMessage} />);
+  const input = wrapper.find(`input`);
+  const button = wrapper.find(`button`);
+  input.simulate("change", {
+    target: {
+      value: 1,
+    },
+  });
+  button.simulate("click");
+  expect(addMessage).toBeCalledWith(1);
+});
+```
 
 ## GET
 
