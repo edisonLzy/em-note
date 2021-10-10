@@ -1,7 +1,7 @@
 ---
 
      title: jest
-     date: 2021-10-08T14:09:40.701Z
+     date: 2021-10-10T14:12:39.741Z
      description: jest
 
 ---
@@ -193,7 +193,27 @@ it("test message-form submit input value by button", () => {
   });
   button.simulate("click");
   expect(addMessage).toBeCalledWith(1);
+  wrapper.instance(); // 获取类组件的实例
+  const childComp = wrapper.find(组件); // 直接获取 子组件
 });
+```
+
+## BDD
+
+-  行为驱动开发
+
+1. 定义用户故事(站在用户的角度，去描述用户的行为)
+
+2. 根据用户故事写测试用例
+
+## UI 测试
+
+- 让测试用例跑在浏览器端
+
+- puppeteer 集成 jest
+
+```shell
+npm i jest-puppeteer jest puppeteer -D
 ```
 
 ## GET
@@ -203,3 +223,40 @@ it("test message-form submit input value by button", () => {
 - [x] jsdom 符合 web 标准的，可以跑在 node 端的 `dom 实现 `,在 jest 中通过` jestEnvironment`指定
 - [ ] mock 调用是什么意思
 - [x] el.nodeName: 获取 dom 节点的 tagname 和 tagName 行为一致
+- [x] expect().toBeTruthy():  判断一个值是不是 truthy
+- [x] wrapper.instance() : 获取类组件的实例
+- [x] wrapper.find(组件) :  直接获取子组件
+
+1. 注意当 props 更新的时候,需要手动再次获取  子组件的实  例
+
+- [] expect.any(String) : 表示任意的字符串
+- [] 什么是白盒测试和黑盒测试
+
+  > 白盒测试：`已知产品的内部工作过程`，可以通过测试证明每种`内部操作是否符合设计规格要求`，所有内部成分是否以经过检查。 软件的黑盒测试意味着测试要在软件的接口处进行。 这种方法是把测试对象看做一个黑盒子，测试人员完全不考虑程序内部的逻辑结构和内部特性，`只依据程序的需求规格说明书，检查程序的功能是否符合它的功能说明。`
+
+- [x] 测试类组件可以直接使用 wrapper.state 获取组件的状态
+
+- [x] 如何测试 redux 和 router
+
+1. 测试使用 redux 的组件,需要使用 `Provider` 进行包裹，在挂载
+
+```tsx
+imp Provider
+imp store
+const wrapper = mount(<Provider store={store}><App></Provider>)
+```
+
+2. 测试 reducer (reducer 是纯函数，非常容易测试)
+
+```tsx
+// 测试初始化状态
+expect(count1(undefined, { type: "@@REDUX/init" })).toEqual({});
+```
+
+3. 测试仓库(注意测试用的是统一仓库，可以通过 `beforeEach` 在每次测试之前重置 仓库)
+
+- [x] toMatchObject 和 toEqual 有什么区别
+
+1. toMatchObject 匹配的是对象的属性,如果属性名称相同值不同 则不匹配
+
+2. toEqual 对象属性完全相等
