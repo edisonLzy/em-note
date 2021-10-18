@@ -1,7 +1,7 @@
 ---
 
      title: antd
-     date: 2021-09-14T15:18:42.597Z
+     date: 2021-10-18T14:11:14.747Z
      description: antd
 
 ---
@@ -34,7 +34,7 @@ const a: A = {
 
 - forwardRef 转发类型
 
-1. 通过结果约束函数的类型，并添加静态属性
+1. 通过接口约束函数的类型，并添加静态属性
 
 ```tsx
 interface ForwardRefRenderFunction<T, P = {}> {
@@ -187,7 +187,7 @@ const Button = React.forwardRef<unknown, ButtonProps>(
 
 ## Wave
 
-- 通过属性选择器 AnimationAPI , RAF ,以及通过插入 Style 标签设置 css 变量来实现不同颜色的 wave 效果\
+- 通过属性选择器 AnimationAPI , RAF ,以及通过插入 Style 标签设置 css 变量来实现不同颜色的 wave 效果
 
 1. 获取不同的 wave 颜色
 
@@ -196,6 +196,8 @@ const waveColor =
   getComputedStyle(node).getPropertyValue("border-top-color") || // Firefox Compatible
   getComputedStyle(node).getPropertyValue("border-color") ||
   getComputedStyle(node).getPropertyValue("background-color");
+// 也可以通过 []进行获取
+getComputedStyle(node)["borderColor"];
 ```
 
 2. 动态创建 style 元素结合 属性选择器 动态设置 css 变量的值
@@ -264,3 +266,84 @@ onTransitionEnd = (e: AnimationEvent) => {
   this.resetEffect(e.target as HTMLElement);
 };
 ```
+
+## Dialog
+
+- 通过交叉类型给组件添加静态方法
+
+```ts
+function modalWarn(props: ModalFuncProps) {
+  return confirm(withWarn(props));
+}
+type ModalType = typeof OriginModal &
+  ModalStaticFunctions & {
+    destroyAll: () => void;
+    config: typeof globalConfig;
+  };
+const Modal = OriginModal as ModalType;
+Modal.info = function infoFn(props: ModalFuncProps) {
+  return confirm(withInfo(props));
+};
+```
+
+- ref 转发类型约束
+
+```ts
+// React.ForwardRefRenderFunction<T, P={}>
+const HookModal: React.ForwardRefRenderFunction<HookModalRef, HookModalProps> = (
+  { afterClose, config },
+  ref,
+)
+```
+
+1. T: 约束 useImperativeHandle 第二个参数的返回值类型
+
+```ts
+React.useImperativeHandle(ref, () => ({
+  destroy: close,
+  update: (newConfig: ModalFuncProps) => {
+    setInnerConfig((originConfig) => ({
+      ...originConfig,
+      ...newConfig,
+    }));
+  },
+}));
+```
+
+2. P: 约束被转发组件的 props 类型
+
+- 利用 useRef 来避免事件处理函数多次执行
+
+```ts
+const clickedRef = React.useRef<boolean>(false);
+const onClick = () => {
+  const { actionFn, closeModal } = props;
+  if (clickedRef.current) {
+    return;
+  }
+  clickedRef.current = true;
+  if (!actionFn) {
+    closeModal();
+    return;
+  }
+  let returnValueOfOnOk;
+  if (actionFn.length) {
+    returnValueOfOnOk = actionFn(closeModal);
+    // https://github.com/ant-design/ant-design/issues/23358
+    clickedRef.current = false;
+  } else {
+    returnValueOfOnOk = actionFn();
+    if (!returnValueOfOnOk) {
+      closeModal();
+      return;
+    }
+  }
+  handlePromiseOnOk(returnValueOfOnOk);
+};
+```
+
+## TODO: AcitonButton line:66
+
+### 参考文献
+
+1. https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
