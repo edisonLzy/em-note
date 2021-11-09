@@ -1,7 +1,7 @@
 ---
 
      title: react-router v6
-     date: 2021-11-08T10:04:15.307Z
+     date: 2021-11-09T10:05:42.745Z
      description: react-router v6
 
 ---
@@ -10,7 +10,7 @@
 
 - [] Replace any `<Route>`s that are not inside a `<Switch> `with `useRouteMatch`, or wrap them in a`<Switch>`
 
-- [] Replace any elements inside a `<Switch>` that are not plain `<Route>` elements with a regular `<Route>`. This includes any `<PrivateRoute>`-style custom components.
+- [x] Replace any elements inside a `<Switch>` that are not plain `<Route>` elements with a regular `<Route>`. This includes any `<PrivateRoute>`-style custom components.
 
 1. `do all your own composition in the <Route element> prop`
 
@@ -35,6 +35,21 @@ function PrivateRoute({ path, children, redirectTo }) {
   );
 }
 ```
+
+- [x] 嵌套路由使用 带有`*`的 path 来指定
+
+```tsx
+<Route path="users/*" element={<Users />} />
+```
+
+### useNavigate
+
+- 代替 `useHistory`
+- 更好的兼容 `suspense` : `moving from using the `history`API directly to the`navigate` API is to provide better compatibility with React suspense`
+
+### Navigate
+
+- 代替 `Redirect`
 
 ### Routes
 
